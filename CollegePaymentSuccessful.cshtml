@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "CollegePaymentSuccessful";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = Model;
+}
+
+<section class="gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content-block-payment" id="facilities">
+                    @if (@info.order_status == "Success")
+                    {
+                        <h4 class="heading-xl">Payment Successful</h4>
+                    }
+                    else
+                    {
+                        <h4 class="heading-xl">Payment Failed</h4>
+                    }
+                    <p>Order Id :&nbsp; @info.order_id</p>
+                    <p>Reference No. :&nbsp; @info.tracking_id</p>
+                    <p>Amount :&nbsp; @info.mer_amount</p>
+                    <p>Payment Status :&nbsp; <span class="green-color">@info.order_status</span></p>
+                    <a href="/PaymentRequest/GetCollegePaymentReceipt/@info.order_id" class="btn btn-outline-success">Generate Receipt</a>
+
+                    @*@foreach (var item in Model)
+                        {
+
+
+                            <li>@item.Key :&nbsp; @item.Value</li>
+
+
+                        }*@
+                </div>
+                @*<h4>Payment Successful</h4>
+                    @foreach (var item in Model)
+                    {
+                        <p> @item.Key :&nbsp; @item.Value</p>
+                    }*@
+            </div>
+        </div>
+    </div>
+
+</section>
+

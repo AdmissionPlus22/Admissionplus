@@ -1,0 +1,409 @@
+﻿@{
+    ViewBag.Title = "GetPaymentReceipt";
+
+    var info = Model;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <link rel="shortcut icon" href="/Assets/FrontEnd/assets/img/favicon.ico" type="image/ico" />
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700|Material+Icons|Poppins:400,600,700" rel="stylesheet">
+    <style>
+
+page {background: #eeeeee;display: block;margin: 0 auto;margin-bottom: 0.5cm;box-shadow: 0 0 0.5cm rgba(0,0,0,0.5); font-family: 'Roboto', sans-serif; }
+page[size="A4"] {  width: 21cm;height: 29.7cm; }
+page[size="A4"][layout="landscape"] {width: 29.7cm;height: 21cm;  }
+@*@media print {
+  body, page {margin: 0;box-shadow: 0;}
+}*@
+*{box-sizing: border-box;}
+
+h1,h2,h3,h4,h5,h6{
+            margin: 0;
+            padding: 0;
+            font-weight: 400;
+        }
+        p{
+            margin: 0;
+            padding: 0;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .brand-section{
+           background-color: #2f3032;
+           padding: 10px 20px;
+        }
+        .logo{
+            width: 50%;
+        }
+
+        .row{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .col-6{
+            width: 50%;
+            flex: 0 0 auto;
+        }
+        .text-white{
+            color: #fff;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .company-details{
+            float: right;
+            text-align: right;
+        }
+        .body-section{
+            margin: 16px;
+            padding-bottom: 15px;
+            border-bottom:1px solid #ccc;
+        }
+        .heading{
+            font-size: 15px;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+        .sub-heading{
+            color: #262626;
+            margin-bottom: 05px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        table{
+            background-color: #fff;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table thead tr{
+            border: 1px solid #111;
+            background-color: #f2f2f2;
+        }
+        table td {
+            vertical-align: middle !important;
+            text-align: center;
+        }
+        table th, table td {
+            padding-top: 08px;
+            padding-bottom: 08px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .table-bordered{
+
+        }
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #dee2e6;
+        }
+        .text-right{
+            text-align: end;
+        }
+        .w-20{
+            width: 20%;
+        }
+        .float-right{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+
+    @*<input type="button" id="create_pdf" value="Generate PDF" style="border: none; background-color: #28388f; color:#fff; padding: 5px 8px;font-family:'Roboto', sans-serif; font-size: 11px; cursor: pointer;">*@
+    <br /><button onclick="window.print()">Print</button>
+
+    <page size="A4" class="pdf-convert-area">
+        <section id="full" style="float:left;width:100%; height: 100%; position: relative;">
+
+            <div class="brand-section">
+                <div class="row">
+                    <div class="col-6">
+                        <img style="height:46px; margin-top: 2px;" src="~/Assets/FrontEnd/assets/img/right-admission-logo-on-black.png" alt="">
+                    </div>
+                    <div class="col-6">
+                        <div class="company-details">
+                            <h4 style="font-family:'Roboto', sans-serif;color:#000000;font-size: 15px;font-weight: 400;margin: 0; text-align:right; width: 100%; color:#fff;">Right Admission Technologies</h4>
+                            <p class="text-white" style="margin: 5px 0 0 0;">1-2-66 to 193, # 311, 3rd Floor, Bhuvana Towers, Sarojini Devi Road, Secunderabad 500003, Telangana, India</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (@info.order_status == "Success")
+            {
+                <div class="body-section">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <h3>
+                                <p class="sub-heading">Payment For&nbsp;:&nbsp;@info.name</p>
+                                <p class="sub-heading">Mobile No.&nbsp;:&nbsp;@info.contactNumber</p>
+                                <p class="sub-heading">Email&nbsp;:&nbsp;@info.email</p>
+                                <h2 class="heading">Address&nbsp;:</h2>
+                                <p style="font-size: 13px;">@info.address.</p>
+                            </h3>
+                        </div>
+                        <div class="col-6">
+                            <h3>
+                                <p class="sub-heading">Order Id&nbsp;:&nbsp;@info.order_id</p><br />
+                                <p class="sub-heading">School Name&nbsp;:&nbsp;@info.InstituteName</p><br />
+                                <p class="sub-heading">Class&nbsp;:&nbsp;@info.ClassName</p>
+
+                            </h3>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-section">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <h3>
+                                <p class="sub-heading">Payment Date&nbsp;:&nbsp;@info.trans_date</p><br />
+                                <p class="sub-heading">Bank Reference Number &nbsp;:&nbsp;@info.bank_ref_no</p><br /><br />
+
+                            </h3>
+                        </div>
+                        <div class="col-6">
+                            <h3>
+                                <p class="sub-heading">Mode of Payment&nbsp;:&nbsp;@info.payment_mode</p><br />
+                                <p class="sub-heading">Payment Through&nbsp;:&nbsp;@info.card_name</p><br />
+
+                                <p class="sub-heading">Payment Amount&nbsp;:&nbsp;Rs. @info.amount</p><br /><br /><br />
+                            </h3>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-section">
+                    <table class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Description of charges</th>
+                                <th class="w-20">Amount</th>
+                                <th class="w-20">Paid</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.SchoolFeesList != null)
+                                    {
+                                        foreach (var i in ViewBag.SchoolFeesList)
+                                        {
+
+                                            <tr>
+                                                <td style="text-align:center;">@i.FeesCategoryName</td>
+                                                <td style="text-align: center;">@i.FeeAmount</td>
+                                                <td style="text-align: center;">@i.FeeAmount</td>
+                                            </tr>
+                                        }
+                                    }
+                            @*<tr>
+                                    <td><p>Pupils Fund</p></td>
+                                    <td><p>100.00</p></td>
+                                    <td><p>100.00</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>COMP</p></td>
+                                    <td><p>100.00</p></td>
+                                    <td><p>100.00</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Worksheet fee</p></td>
+                                    <td><p>300.00</p></td>
+                                    <td><p>300.00</p></td>
+                                </tr>*@
+
+                        <thead>
+                            <tr>
+                                <td>a. Total</td>
+                                <td>@info.TotalFees</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>b. Coupon: @info.CouponCode Applied, Off Rs. @info.DiscountAmt</td>
+                                <td>@info.AfterDiscountPrice</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><h3>c. 18% GST</h3></td>
+                                <td><h3>@info.gstAmount</h3></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><h3>Total Paid (b+c)</h3></td>
+                                <td><h3>@info.amount</h3></td>
+                                <td>
+                                    <h3>
+                                        @info.amount
+                                    </h3>
+                                </td>
+                            </tr>
+                        </thead>
+                                </tbody>
+                    </table>
+                    <br>
+                    <h3 class="heading">Payment Status: <spam style="color:limegreen">@info.order_status</spam></h3>
+
+
+                    <p>This is a computer generated receipt. No signature required. Thanking you for payment.</p>
+                </div>
+            }
+            else
+            {
+                <div class="body-section">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <h3>
+                                <p class="sub-heading">Payment For&nbsp;:&nbsp;@info.name</p>
+                                <p class="sub-heading">Mobile No.&nbsp;:&nbsp;@info.contactNumber</p>
+                                <p class="sub-heading">Email&nbsp;:&nbsp;@info.email</p>
+                                <h2 class="heading">Address&nbsp;:</h2>
+                                <p style="font-size: 13px;">@info.address.</p>
+                            </h3>
+                        </div>
+                        <div class="col-6">
+                            <h3>
+                                <p class="sub-heading">Order Id&nbsp;:&nbsp;@info.order_id</p><br />
+                                <p class="sub-heading">School Name&nbsp;:&nbsp;@info.InstituteName</p><br />
+                                <p class="sub-heading">Class&nbsp;:&nbsp;@info.ClassName</p>
+
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-section">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <h3>
+                                <p class="sub-heading">Payment Initiate Date&nbsp;:&nbsp;@info.trans_date</p><br />
+                                <p class="sub-heading">Bank Reference Number &nbsp;:&nbsp;</p><br /><br />
+
+                            </h3>
+                        </div>
+                        <div class="col-6">
+                            <h3>
+                                <p class="sub-heading">Mode of Payment&nbsp;:&nbsp;@info.payment_mode</p><br />
+                                <p class="sub-heading">Payment By&nbsp;:&nbsp;</p><br />
+
+                                <p class="sub-heading">Payment Amount&nbsp;:&nbsp;Rs.</p><br /><br /><br />
+                            </h3>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-section">
+                    <table class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Description of charges</th>
+                                <th class="w-20">Amount</th>
+                                <th class="w-20">Paid</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><p></p></td>
+                                <td><p></p></td>
+                                <td><p></p></td>
+                            </tr>
+                            @*<tr>
+                                    <td><p>Pupils Fund</p></td>
+                                    <td><p>100.00</p></td>
+                                    <td><p>100.00</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>COMP</p></td>
+                                    <td><p>100.00</p></td>
+                                    <td><p>100.00</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Worksheet fee</p></td>
+                                    <td><p>300.00</p></td>
+                                    <td><p>300.00</p></td>
+                                </tr>*@
+
+                        <thead>
+                            <tr>
+                                <td><h3>Total</h3></td>
+                                <td><h3></h3></td>
+                                <td>
+                                    <h3>
+                                    </h3>
+                                </td>
+                                </tbody>
+                    </table>
+                    <br>
+                    <h3 class="heading">Payment Status: <spam style="color:red">@info.order_status</spam></h3>
+
+
+                    <p>This is a computer generated receipt. No signature required.</p>
+                </div>
+            }
+
+
+
+        </section>
+    </page>
+
+    <!-- jquery -->
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+
+    <script>
+        (function () {
+            var
+                form = $('.pdf-convert-area'),
+                cache_width = form.width(),
+                a4 = [595.28, 841.89]; // for a4 size paper width and height
+
+            $('#create_pdf').on('click', function () {
+                $('body').scrollTop(0);
+                createPDF();
+            });
+            //create pdf
+            function createPDF() {
+                getCanvas().then(function (canvas) {
+                    var
+                        img = canvas.toDataURL("image/png"),
+                        doc = new jsPDF({
+                            unit: 'px',
+                            format: 'a4'
+                        });
+                    doc.addImage(img, 'JPEG', 0, 0);
+                    doc.save('confirmation-voucher.pdf');
+                    form.width(cache_width);
+                });
+            }
+
+            // create canvas object
+            function getCanvas() {
+                form.width((a4[0] * 1.33333) - 0).css('max-width', 'none');
+                return html2canvas(form, {
+                    imageTimeout: 2000,
+                    removeContainer: true
+                });
+            }
+
+        }());
+
+    </script>
+
+
+
+</body>
+</html>
+

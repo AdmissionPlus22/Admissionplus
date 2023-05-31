@@ -1,0 +1,134 @@
+﻿@model Admissionplus.EntityModel.EndUser_tbl
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+    var info = Model;
+}
+<!-- ########## START: MAIN PANEL ########## -->
+<div class="sl-mainpanel">
+    <nav class="breadcrumb sl-breadcrumb">
+        <a class="breadcrumb-item" href="/Admin">Home</a>
+        <span class="breadcrumb-item">User</span>
+        <span class="breadcrumb-item active">User Profile</span>
+    </nav>
+
+    <div class="sl-pagebody">
+        <div class="sl-page-title">
+            <h5>Edit Profile</h5>
+            @if (TempData["MSGERROR"] != null)
+            {
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+                    <strong>@TempData["MSGERROR"]</strong>
+                </div>
+            }
+
+            @if (TempData["MSGSUCCESS"] != null)
+            {
+                <div class="alert alert-info alert-dismissable">
+                    <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+                    <strong>@TempData["MSGSUCCESS"]</strong>
+                </div>
+            }
+        </div><!-- sl-page-title -->
+        <div class="card pd-20 pd-sm-40">
+            @using (Html.BeginForm("UpdateUserProfile", "UserProfile", FormMethod.Post, new { enctype = "multipart/form-data", @area = "User" }))
+            {
+                <div class="form-layout">
+                    <div class="row mg-b-25">
+                        @Html.HiddenFor(model => model.UserId, new { })
+                        @*@Html.HiddenFor(model => model.UserType, new { })*@
+                        @Html.HiddenFor(model => model.Latitude, new {@id="lat" })
+                        @Html.HiddenFor(model => model.Longitude, new { @id="long"})
+
+                        <div class="col-lg-6">
+                            <label>Name :</label>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.FullName, new { @placeholder = "User name", @required = "required", @class = "form-control", @type = "text" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Contact Number :</label>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.Phone, new { @placeholder = "Contact Number", @required = "required", @class = "form-control", @type = "text" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label>Email Id :</label>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.EmailId, new { @placeholder = "EmailId", @required = "required", @class = "form-control", @type = "email" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Password :</label>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.Password, new { @placeholder = "Password", @class = "form-control", @required = "required", @type = "password", @id = "fadePassword" })
+                                <span><i id="Password-toggler" class="far fa-eye"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label>Address :</label>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.Location, new { @placeholder = "Address", @class = "form-control", @type = "text", @id = "txtLocation" })
+                            </div>
+                        </div>
+
+                        @*<div class="col-lg-6">
+                                <label>Image :</label><br />
+                                <label class="custom-file">
+
+                                    <input type="file" id="input-file-now" class="custom-file-input dropify" name="Image" accept="image/jpg,image/png,image/jpeg,fiji" onchange="readURL(this);" />
+
+                                    <span class="custom-file-control"></span>
+                                </label>
+
+                            </div>
+                            <div class="col-lg-6" id="imagepreview">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        @if (info == null)
+                                        {
+                                            <img id="img" src="#" style="width:100%;margin-top:25px;" />
+
+                                        }
+                                        else
+                                        {
+                                            <img id="img" src="@info.Image" style="width:100%;margin-top:25px;" />
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="col-lg-12" style="margin-top:15px;">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info mg-r-5">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div><!-- card -->
+        <!-- row -->
+        <!-- card -->
+    </div><!-- sl-pagebody -->
+</div>
+
+<script>
+    function readURL(input) {
+        document.getElementById("img").style.display = "block";
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
